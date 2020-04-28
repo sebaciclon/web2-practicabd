@@ -22,6 +22,16 @@ if($accion == '') {
             agregarTarea();
         break;
         }
+        case 'finalizar': {    //se llama igual que el href del boton
+            finalizarTarea($parametros[1]);
+            
+        break;
+        }
+        case 'ver': {    
+            verTarea($parametros[1]);
+            
+        break;
+        }
         default: {
             echo "Error";
         break;

@@ -2,6 +2,47 @@
 
 require_once 'lib/bd.php';
 
+function verTarea($idTarea) {
+
+    $tarea = obtenerTarea($idTarea);
+
+    echo '
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <base href="' . BASE_URL . '">
+            <title>Tarea</title>
+            <link rel="stylesheet" href="css/estilos.css">
+        </head>
+        <body>
+    ';
+
+    $tareas = conexionBD();
+    
+    echo '<h1>Tarea</h1>';
+    echo "<ul>";
+    
+        echo '<li>';
+        echo ' <b>' . $tarea->titulo . "</b> - ";
+        echo $tarea->descripcion . "---";
+        echo $tarea->prioridad . "---";
+        echo '<a href="'.BASE_URL.'tareas">Volver</a>';
+        //echo '<a href="ver/'.$idTarea.'">Volver</a>';
+        echo '</li>';
+        
+    echo "</ul>";
+
+    
+
+    echo '
+        </body>
+        </html>
+    ';
+
+}
+
 function mostrarTareas() {
 
     echo '
@@ -47,7 +88,16 @@ function mostrarTareas() {
     //armamos la lista de tareas
     echo "<ul>";
     foreach($tareas as $tarea) {
-        echo "<li><b>" . $tarea->titulo . "</b> - " . $tarea->descripcion . "</li>";
+        $idTarea = $tarea->id_tareas;
+
+        echo '<li>';
+        echo '<a href="finalizar/'.$idTarea.'">Finalizar</a>';
+        echo ' <b>' . $tarea->titulo . "</b> - ";
+        echo $tarea->descripcion . "---";
+        echo $tarea->prioridad . "---";
+        echo '<a href="ver/'.$idTarea.'">Ver</a>';
+
+        //echo "<li><b>" . $tarea->titulo . "</b> - " . $tarea->descripcion . " - " . $tarea->prioridad . "<button href=finalizar/$idTarea>Finalizar</button>" . "</li>";
     }
     
     echo "</ul>";
@@ -72,11 +122,14 @@ function agregarTarea() {
         insertarTarea($titulo, $descripcion, $prioridad);
         //con esta linea le indico a donde se redirecciona despues de cargar la tarea
         //en este caso que se quede en el formulario
-        header('location: tareas');
+        header('location: ' . BASE_URL . "tareas");
         
     }
-    
-    
+}
+
+function finalizarTarea($idTarea) {
+    borrarTarea($idTarea);
+    header('location: ' . BASE_URL . "tareas");
 }
 
 
