@@ -1,6 +1,6 @@
 <?php
 
-//require_once 'lib/tareas.php';
+require_once 'controllers/task.controllers.php';
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -15,21 +15,25 @@ if($accion == '') {
 
     switch($parametros[0]) {
         case 'tareas': {        //muestro todas las tareas con la funcion mostrarTareas que tengo en la base de datos
-            mostrarTareas();
+            //instanciando un objeto de la clase TareasControladores
+            $controller = new TaskControllers();
+            $controller->showTask();
         break;
         }
         case 'nuevaTarea': {    //cargo una nueva tarea a la base de datos
-            agregarTarea();
+            $controller = new TaskControllers();
+            $controller->addTask();
         break;
         }
         case 'finalizar': {    //se llama igual que el href del boton
-            finalizarTarea($parametros[1]);
+            $controller = new TaskControllers();
+            $controller->finaliceTask($parametros[1]);
             
         break;
         }
         case 'ver': {    
-            verTarea($parametros[1]);
-            
+            $controller = new TaskControllers();
+            $controller->viewTask($parametros[1]);
         break;
         }
         default: {
